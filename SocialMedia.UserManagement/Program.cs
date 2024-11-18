@@ -32,7 +32,7 @@ namespace UserManagement
                     //.Enrich.WithExceptionDetails(new DestructuringOptionsBuilder().WithDefaultDestructurers()).WriteTo.File("logs/ExceptionErrors.txt", rollingInterval: RollingInterval.Day)
                     .Enrich.WithExceptionDetails()
                     .WriteTo.File(new CompactJsonFormatter(), "logs/JsonLog.txt", rollingInterval: RollingInterval.Day)
-                    .WriteTo.File("logs/RecipeMSLogs.txt", rollingInterval: RollingInterval.Day, outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
+                    .WriteTo.File("logs/UserMSLogs.txt", rollingInterval: RollingInterval.Day, outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}")
                         .WriteTo.Logger(lc => lc.Filter.ByIncludingOnly(evt => evt.Level == Serilog.Events.LogEventLevel.Error)
                             .WriteTo.File("logs/Errors.txt", rollingInterval: RollingInterval.Day, outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {SourceContext}: {Message:lj}{NewLine}{Exception}"))
                             .ReadFrom.Configuration(context.Configuration);
