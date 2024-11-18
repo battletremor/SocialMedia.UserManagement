@@ -18,6 +18,7 @@ namespace SocialMedia.UserManagement.API.Controllers
             _userRepository = userRepository;
         }
 
+        [Obsolete("Use /auth/register")]
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateDto userDto)
         {
@@ -74,6 +75,7 @@ namespace SocialMedia.UserManagement.API.Controllers
             }
         }
 
+        [Obsolete("use /users/search")]
         [HttpGet("username/{username}")]
         public async Task<IActionResult> GetUserByUsername(string username)
         {
