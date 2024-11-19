@@ -102,3 +102,84 @@ Before you start, ensure you have the following installed on your system:
 ```bash
 git clone https://github.com/battletremor/social-media-user-management.git
 cd social-media-user-management
+```
+
+## Architecure
+The below architecture represents the complete picture of the three microservices
+
+```mermaid
+graph TB
+    %% Clients
+    Client["Client (Web/Mobile App)"]
+    
+    %% API Gateway
+    API_Gateway["API Gateway"]
+    
+    %% Microservices
+    User_Microservice["User Microservice"]
+    Post_Microservice["Post Microservice"]
+    Comment_Microservice["Comment Microservice"]
+
+    %% Databases
+    User_DB["User DB (SQL/NoSQL)"]
+    Post_DB["Post DB (SQL/NoSQL)"]
+    Comment_DB["Comment DB (SQL/NoSQL)"]
+    
+    %% Cache (Optional)
+    Cache["Cache Layer -Sessions (Redis)"]
+    
+    %% External Services
+    Email_Service["Email Service (e.g., SendGrid SMTP)"]
+    File_Storage["File Storage (e.g., S3, GCS)"]
+    SMS_Service["SMS Service (e.g., Twilio)"]
+    
+    %% Asynchronous Communication
+    MQ["Message Queue (e.g., RabbitMQ, Kafka) - Emails"]
+
+    %% Connections
+
+    Client --> API_Gateway
+    API_Gateway --> User_Microservice
+    API_Gateway --> Post_Microservice
+    API_Gateway --> Comment_Microservice
+
+    User_Microservice --> User_DB
+    Post_Microservice --> Post_DB
+    Comment_Microservice --> Comment_DB
+
+    User_Microservice --> Cache
+    Post_Microservice --> Cache
+    Comment_Microservice --> Cache
+
+    User_Microservice --> Email_Service
+    Post_Microservice --> File_Storage
+    Comment_Microservice --> SMS_Service
+
+    Post_Microservice --> MQ
+    Comment_Microservice --> MQ
+
+    %% Optional for better grouping
+    subgraph "Microservices Layer"
+        User_Microservice
+        Post_Microservice
+        Comment_Microservice
+    end
+
+    subgraph "Data Layer"
+        User_DB
+        Post_DB
+        Comment_DB
+        Cache
+    end
+
+    subgraph "External Integrations"
+        Email_Service
+        File_Storage
+        SMS_Service
+    end
+
+    subgraph "Asynchronous Layer"
+        MQ
+    end
+```
+
